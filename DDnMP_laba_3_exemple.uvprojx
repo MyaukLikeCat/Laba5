@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\LR5_1</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -402,6 +402,16 @@
               <FileName>stm32f101xb.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\stm32f101xb.h</FilePath>
+            </File>
+            <File>
+              <FileName>UartUser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\UartUser.h</FilePath>
+            </File>
+            <File>
+              <FileName>UartUser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UartUser.c</FilePath>
             </File>
           </Files>
         </Group>

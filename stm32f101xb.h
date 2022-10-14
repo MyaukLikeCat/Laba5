@@ -1,7 +1,6 @@
 
 #include <stdint.h>
 
-
  /*!< Interrupt Number Definition */
 typedef enum
 {
@@ -217,6 +216,9 @@ typedef struct /////////////////////////////////////////////////////////////////
 #define USART_CR1_RXNEIE_Pos                 (5U)                              
 #define USART_CR1_RXNEIE_Msk                 (0x1UL << USART_CR1_RXNEIE_Pos)        /*!< 0x00002000 */
 #define USART_CR1_RXNEIE                     USART_CR1_RXNEIE_Msk/////////////////////////////////////////////////////////////////////////
+#define USART_CR1_TCIE_Pos                   (6U)                              
+#define USART_CR1_TCIE_Msk                   (0x1UL << USART_CR1_TCIE_Pos)        /*!< 0x00002000 */
+#define USART_CR1_TCIE                       USART_CR1_TCIE_Msk/////////////////////////////////////////////////////////////////////////
 #define USART_CR1_TXEIE_Pos                  (7U)                              
 #define USART_CR1_TXEIE_Msk                  (0x1UL << USART_CR1_TXEIE_Pos)        /*!< 0x00002000 */
 #define USART_CR1_TXEIE                      USART_CR1_TXEIE_Msk/////////////////////////////////////////////////////////////////////////

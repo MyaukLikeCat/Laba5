@@ -1,7 +1,5 @@
 
 #include "stdint.h"
-#include "stm32f101xb.h"
-
 
 /* Регистры контроллера прерываний*/
 typedef struct
