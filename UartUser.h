@@ -25,8 +25,14 @@ void UsartRxIT(USART_TypeDef *UartNum, char *buf, int16_t SizeData);
 void UsartInit(USART_TypeDef *UartNum, int32_t baude, int32_t freq);
 void UsartInitStruct(USART_Settings *usart);
 
-/* Callback функция после отправки байтов */
+/* Callback функция USART1 после отправки байтов */
 void USART1_TX_Callback(void);
 
-/* Callback функция после приема байтов */
+/* Callback функция USART1 после приема байтов */
 void USART1_RX_Callback(void);
+
+/* Callback функция USART2 после отправки байтов */
+void USART2_TX_Callback(void);
+
+/* Callback функция USART2 после приема байтов */
+void USART2_RX_Callback(void);

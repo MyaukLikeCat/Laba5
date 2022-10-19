@@ -28,17 +28,19 @@ void init_USARTIT(void);                                                 // Вк
 /* Объявляем переменную типа USART_Settings */
 USART_Settings usart;
 
+char str[4] = {};
+
 int main(void)
 {
     /*Включение тактирования портов*/
 	RCC->APB2ENR = RCC->APB2ENR | RCC_APB2ENR_IOPAEN_Msk;   // Разрешаем тактирование порта GPIOA
-	RCC->APB2ENR = RCC->APB2ENR | RCC_APB2ENR_USART1EN_Msk; // Включаем тактирование USART1
+	RCC->APB1ENR = RCC->APB1ENR | RCC_APB1ENR_USART2EN_Msk; // Включаем тактирование USART1
 
-    auto_PIN_on(GPIOA, 9, 1);  // Настройка вывода PA9 (TX) MODE = 11, CNF = 10
-    auto_PIN_on(GPIOA, 10, 0); // Настройка вывода PA10 (RX) MODE = 00, CNF = 10 
-    
+    auto_PIN_on(GPIOA, 2, 1);  // Настройка вывода PA9 (TX) MODE = 11, CNF = 10
+    auto_PIN_on(GPIOA, 3, 0); // Настройка вывода PA10 (RX) MODE = 00, CNF = 10 
+    auto_PIN_on(GPIOC, 13, 2);
     /* Инициализация USART */
-    usart.UartPtr = USART1;
+    usart.UartPtr = USART2;
     usart.baude = 19200;
     usart.freq = 8000000;
     UsartInitStruct(&usart);
@@ -48,9 +50,10 @@ int main(void)
 
     while(1)
     {
-        char str[] = "Hello Piter\r\n";
-        UsartTxIT(USART1, &str, strlen(str));
-        delay(1000000);
+        UsartRx(USART2, &str, 4);
+        delay(100000);
+        UsartTxIT(USART2, &str, 4);
+        delay(100000);
     }    
 }
 
@@ -69,6 +72,7 @@ void init_USARTIT(void)
 	RCC->APB2ENR = RCC->APB2ENR | RCC_APB2ENR_AFIOEN;
 	/* Разрешение прерываний */
 	NVIC->ISER[(((uint32_t)USART1_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)USART1_IRQn) & 0x1FUL));
+    NVIC->ISER[(((uint32_t)USART2_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)USART2_IRQn) & 0x1FUL));
 }
 
 /*Функция задает Mode и Cfg для переданных портов и пинов*/

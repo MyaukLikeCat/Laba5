@@ -3,7 +3,7 @@
 
 static char UartUserBufTX[100] = {};
 static int16_t SizeUartTx = 0;
-static int16_t Сounter = 0;
+static int16_t Counter = 0;
 
 static uint16_t w = 1;
 static uint16_t ucnt = 0; 
@@ -24,7 +24,7 @@ uint8_t UsartTx(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
     while (i < 1000)
     {
         i++;
-        if (UartNum->SR & USART_SR_TXE)
+        if (UartNum->SR & USART_SR_TC)
         {
             UartNum->DR = buf[j];
             i = 0;
@@ -123,15 +123,15 @@ void USART1_IRQHandler(void)
 {
     if (USART1->CR1 & USART_CR1_TE)
     {
-        if(Сounter < SizeUartTx)
+        if(Counter <= SizeUartTx)
         {
-            USART1->DR = UartUserBufTX[Сounter];
-            Сounter = Сounter + 1;
+            USART1->DR = UartUserBufTX[Counter];
+            Counter = Counter + 1;
         }
         else
         {
             USART1->CR1 &= ~(USART_CR1_TXEIE | USART_CR1_TE);
-            Сounter = 0;
+            Counter = 0;
             USART1_TX_Callback();
         }
     }
@@ -144,7 +144,7 @@ void USART1_IRQHandler(void)
         }
         else
         {
-            USART1->CR1 &= ~USART_CR1_RXNEIE;
+            USART1->CR1 &= ~(USART_CR1_RXNEIE | USART_CR1_RE);
             ucnt = 0;
             USART1_RX_Callback();
         }
@@ -159,6 +159,51 @@ __weak void USART1_TX_Callback(void)
 
 /* Callback функция после приема байтов */
 __weak void USART1_RX_Callback(void)
+{
+    
+}
+
+/* Обработчик прерываний для USART2 */
+void USART2_IRQHandler(void)
+{
+    if (USART2->CR1 & USART_CR1_TE)
+    {
+        if(Counter <= SizeUartTx)
+        {
+            USART2->DR = UartUserBufTX[Counter];
+            Counter = Counter + 1;
+        }
+        else
+        {
+            USART2->CR1 &= ~(USART_CR1_TXEIE | USART_CR1_TE);
+            Counter = 0;
+            USART2_TX_Callback();
+        }
+    }
+    else if (USART2->CR1 & USART_CR1_RE)
+    {
+        if(ucnt < SizeUartRx)
+        {
+            UartUserBufRX[ucnt] = USART2->DR;
+            ucnt = ucnt + 1;
+        }
+        else
+        {
+            USART2->CR1 &= ~(USART_CR1_RXNEIE | USART_CR1_RE);
+            ucnt = 0;
+            USART2_RX_Callback();
+        }
+    }
+}
+
+/* Callback функция после отправки байтов */
+__weak void USART2_TX_Callback(void)
+{
+    
+}
+
+/* Callback функция после приема байтов */
+__weak void USART2_RX_Callback(void)
 {
     
 }

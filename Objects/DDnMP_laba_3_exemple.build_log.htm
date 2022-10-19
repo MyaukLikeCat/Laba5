@@ -28,26 +28,16 @@ Project File Date:  10/11/2022
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f103xb.s...
-compiling main.c...
-main.h(24): warning:  #1-D: last line of file ends without a newline
-  #define NVIC	((NVIC_Type*)NVIC_BASE)   /*!< NVIC configuration struct */
-UartUser.h(32): warning:  #1-D: last line of file ends without a newline
-  void USART1_RX_Callback(void);
-main.c(52): warning:  #167-D: argument of type "char (*)[14]" is incompatible with parameter of type "char *"
-          UsartTxIT(USART1, &str, strlen(str));
-main.c(124): warning:  #1-D: last line of file ends without a newline
-  }
-main.c: 4 warnings, 0 errors
 compiling UartUser.c...
-UartUser.h(32): warning:  #1-D: last line of file ends without a newline
-  void USART1_RX_Callback(void);
-UartUser.c(72): warning:  #223-D: function "memcpy" declared implicitly
+UartUser.h(38): warning:  #1-D: last line of file ends without a newline
+  void USART2_RX_Callback(void);
+UartUser.c(74): warning:  #223-D: function "memcpy" declared implicitly
       memcpy(UartUserBufTX, buf, SizeData);
-UartUser.c(92): warning:  #223-D: function "round" declared implicitly
+UartUser.c(94): warning:  #223-D: function "round" declared implicitly
       brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
-UartUser.c(111): warning:  #223-D: function "round" declared implicitly
+UartUser.c(113): warning:  #223-D: function "round" declared implicitly
       brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
-UartUser.c(162): warning:  #1-D: last line of file ends without a newline
+UartUser.c(209): warning:  #1-D: last line of file ends without a newline
   }
 UartUser.c(8): warning:  #177-D: variable "w"  was declared but never referenced
   static uint16_t w = 1;
@@ -58,9 +48,21 @@ UartUser.c(13): warning:  #550-D: variable "UartRxNum"  was set but never used
 UartUser.c(14): warning:  #177-D: variable "s"  was declared but never referenced
   static uint8_t s;
 UartUser.c: 9 warnings, 0 errors
+compiling main.c...
+main.h(24): warning:  #1-D: last line of file ends without a newline
+  #define NVIC	((NVIC_Type*)NVIC_BASE)   /*!< NVIC configuration struct */
+UartUser.h(38): warning:  #1-D: last line of file ends without a newline
+  void USART2_RX_Callback(void);
+main.c(53): warning:  #167-D: argument of type "char (*)[4]" is incompatible with parameter of type "char *"
+          UsartRx(USART2, &str, 4);
+main.c(55): warning:  #167-D: argument of type "char (*)[4]" is incompatible with parameter of type "char *"
+          UsartTxIT(USART2, &str, 4);
+main.c(128): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=3632 RO-data=268 RW-data=28 ZI-data=1756  
-".\Objects\DDnMP_laba_3_exemple.axf" - 0 Error(s), 13 Warning(s).
+Program Size: Code=3844 RO-data=268 RW-data=32 ZI-data=1760  
+".\Objects\DDnMP_laba_3_exemple.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
