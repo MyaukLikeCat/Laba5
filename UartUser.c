@@ -5,29 +5,28 @@ static char UartUserBufTX[100] = {};
 static int16_t SizeUartTx = 0;
 static int16_t Counter = 0;
 
-static uint16_t w = 1;
 static uint16_t ucnt = 0; 
 static uint8_t d = 0;
 static char *UartUserBufRX;
 static int16_t SizeUartRx = 0;
 static USART_TypeDef *UartRxNum;
 static uint8_t s;
+
     
 /* Передача через USART без прерываний */
-uint8_t UsartTx(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
+uint8_t UsartTx(USART_TypeDef *UartNum, char *buf, uint16_t SizeData, uint16_t TimeOut)
 {
     UartNum->CR1 |= USART_CR1_TE;
-    uint16_t i = 0;
     uint8_t s = 0;
     uint8_t j = 0;
-
-    while (i < 1000)
+    
+    TimeStart(TimeOut);
+    
+    while (!(TIM2->SR & TIM2_SR_UIF))
     {
-        i++;
         if (UartNum->SR & USART_SR_TC)
         {
             UartNum->DR = buf[j];
-            i = 0;
             j++;
             if (j == SizeData)
             {
@@ -36,25 +35,36 @@ uint8_t UsartTx(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
             }
         }
     }
+    TIM2->SR &= ~TIM2_SR_UIF;   
+    TIM2->CR1 &= ~TIM2_CR1_CEN;
     UartNum->CR1 &= ~USART_CR1_TE;
     return s;
 }
 
-/* Прием через USART без прерываний */
-uint8_t UsartRx(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
+/* Инициализация таймера */
+static void TimeStart(uint16_t period)
 {
-    uint16_t i = 0;
+    uint16_t psc = 7999;
+    uint16_t ar = period;
+    TIM2->CNT = 0;
+    TIM2->SR = 0;
+    TIM2->PSC = psc;
+    TIM2->ARR = ar;
+    TIM2->CR1 |= TIM2_CR1_CEN;
+}
+
+/* Прием через USART без прерываний */
+uint8_t UsartRx(USART_TypeDef *UartNum, char *buf, uint16_t SizeData, uint16_t TimeOut)
+{
     uint8_t s = 0;
     uint8_t j = 0;
     UartNum->CR1 |= USART_CR1_RE;
-    
-        while (i < 1000)
+    TimeStart(TimeOut);
+        while (!(TIM2->SR & TIM2_SR_UIF))
         {
-            i++;
             if (UartNum->SR & USART_SR_RXNE)
             {
                 buf[j] = UartNum->DR;
-                i = 0;
                 j++;
                 if (j == SizeData)
                 {
@@ -63,12 +73,14 @@ uint8_t UsartRx(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
                 } 
             }
         }
+    TIM2->SR &= ~TIM2_SR_UIF;   
+    TIM2->CR1 &= ~TIM2_CR1_CEN;
     UartNum->CR1 &= ~USART_CR1_RE;
     return s;
 }
 
 /* Передача через USART через прерывания */
-void UsartTxIT(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
+void UsartTxIT(USART_TypeDef *UartNum, char *buf, uint16_t SizeData)
 {
     SizeUartTx = SizeData;
     memcpy(UartUserBufTX, buf, SizeData);
@@ -76,7 +88,7 @@ void UsartTxIT(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
 }
 
 /* Прием через USART через прерывания */
-void UsartRxIT(USART_TypeDef *UartNum, char *buf, int16_t SizeData)
+void UsartRxIT(USART_TypeDef *UartNum, char *buf, uint16_t SizeData)
 {
     SizeUartRx = SizeData;
     UartUserBufRX = buf;

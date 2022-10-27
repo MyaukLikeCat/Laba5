@@ -22,23 +22,27 @@
 #define GPIO_PIN_All               ((uint16_t)0xFFFF)  /* All pins selected */
 
 void auto_PIN_on (GPIO_TypeDef * PORT, uint16_t numPIN, uint16_t mode);  // Mode и Cfg для переданных портов и пинов
-void delay (uint32_t ticks);                                             // Задержка
+void delay (uint16_t millisec);                                             // Задержка
 void init_USARTIT(void);                                                 // Включение прерываний от USART
+void startTIM2(uint16_t period);
 
 /* Объявляем переменную типа USART_Settings */
 USART_Settings usart;
 
-char str[4] = {};
+char str[10] = {};
 
 int main(void)
 {
     /*Включение тактирования портов*/
 	RCC->APB2ENR = RCC->APB2ENR | RCC_APB2ENR_IOPAEN_Msk;   // Разрешаем тактирование порта GPIOA
 	RCC->APB1ENR = RCC->APB1ENR | RCC_APB1ENR_USART2EN_Msk; // Включаем тактирование USART1
-
+	RCC->APB1ENR = RCC->APB1ENR | RCC_APB1ENR_TIM2EN_Msk;  // Включаем тактирование TIM2
+    
     auto_PIN_on(GPIOA, 2, 1);  // Настройка вывода PA9 (TX) MODE = 11, CNF = 10
     auto_PIN_on(GPIOA, 3, 0); // Настройка вывода PA10 (RX) MODE = 00, CNF = 10 
     auto_PIN_on(GPIOC, 13, 2);
+    auto_PIN_on(GPIOA, 5, 2);
+    
     /* Инициализация USART */
     usart.UartPtr = USART2;
     usart.baude = 19200;
@@ -50,19 +54,23 @@ int main(void)
 
     while(1)
     {
-        UsartRx(USART2, &str, 4);
-        delay(100000);
-        UsartTxIT(USART2, &str, 4);
-        delay(100000);
+        UsartRxIT(USART2, &str, 10);
+        delay(500);
+        UsartTxIT(USART2, &str, 10);
+        delay(500);
     }    
 }
 
 /*Задержка*/
-void delay (uint32_t ticks)
+void delay (uint16_t millisec)
 {
-	for (uint32_t i = 0; i < ticks; i++)
-	{
-	}
+    startTIM2(millisec);
+    while (!(TIM2->SR & TIM2_SR_UIF))
+    {
+    
+    }
+    TIM2->SR &= ~TIM2_SR_UIF;
+    TIM2->CR1 &= ~TIM2_CR1_CEN;
 }
 
 /*Включение прерываний от USART1*/
@@ -74,6 +82,18 @@ void init_USARTIT(void)
 	NVIC->ISER[(((uint32_t)USART1_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)USART1_IRQn) & 0x1FUL));
     NVIC->ISER[(((uint32_t)USART2_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)USART2_IRQn) & 0x1FUL));
 }
+
+void startTIM2(uint16_t period)
+{
+    uint16_t psc = 7999;
+    uint16_t ar = period;
+    TIM2->CNT = 0;
+    TIM2->SR = 0;
+    TIM2->PSC = psc;
+    TIM2->ARR = ar;
+    TIM2->CR1 |= TIM2_CR1_CEN;
+}
+
 
 /*Функция задает Mode и Cfg для переданных портов и пинов*/
 void auto_PIN_on (GPIO_TypeDef * PORT, uint16_t numPIN, uint16_t mode)
@@ -120,6 +140,13 @@ void auto_PIN_on (GPIO_TypeDef * PORT, uint16_t numPIN, uint16_t mode)
         }
     }
 }
+
+void TIM2_IRQHandler (void)
+{
+    
+}
+
+
 
 void HardFault_Handler (void)
 {

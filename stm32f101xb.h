@@ -123,7 +123,29 @@ typedef struct /////////////////////////////////////////////////////////////////
    uint32_t GTPR;
 } USART_TypeDef;
 
-
+typedef struct ///////////////////////////////////////////////////////////////////////////////////////
+{
+    uint32_t CR1;
+    uint32_t CR2;
+    uint32_t SMCR;
+    uint32_t DIER;
+    uint32_t SR;
+    uint32_t EGR;
+    uint32_t CCMR1;
+    uint32_t CCMR2;
+    uint32_t CCER;
+    uint32_t CNT;
+    uint32_t PSC;    
+    uint32_t ARR; 
+    uint32_t RES1;
+    uint32_t TIMx_CCR1;
+    uint32_t TIMx_CCR2;
+    uint32_t TIMx_CCR3;
+    uint32_t TIMx_CCR4;
+    uint32_t RES2;
+    uint32_t DCR;
+    uint32_t DMAR;
+} TIM_TypeDef;
 /** @addtogroup Peripheral_memory_map
   * @{
   */
@@ -152,7 +174,8 @@ typedef struct /////////////////////////////////////////////////////////////////
 #define GPIOC_BASE            (APB2PERIPH_BASE + 0x00001000UL)
 
 #define USART1_BASE           (APB2PERIPH_BASE + 0x00003800UL) ////////////////////////////////////////////////////////
-#define USART2_BASE           (PERIPH_BASE + 0x00004400UL) ////////////////////////////////////////////////////////
+#define USART2_BASE           (PERIPH_BASE + 0x00004400UL) ///////////////////////////////////////////////////////////
+#define TIM2_BASE             (PERIPH_BASE + 0x00000000UL) ///////////////////////////////////////////////////////////
 
 #define RCC_BASE              (AHBPERIPH_BASE + 0x00001000UL)
 #define AFIO_BASE             (APB2PERIPH_BASE + 0x00000000UL)
@@ -165,12 +188,79 @@ typedef struct /////////////////////////////////////////////////////////////////
 #define GPIOC               ((GPIO_TypeDef *)GPIOC_BASE)
 #define USART1              ((USART_TypeDef *)USART1_BASE) //////////////////////////////////////////////////////////
 #define USART2              ((USART_TypeDef *)USART2_BASE) //////////////////////////////////////////////////////////
+#define TIM2                ((TIM_TypeDef *)TIM2_BASE) //////////////////////////////////////////////////////////////
 #define RCC                 ((RCC_TypeDef *)RCC_BASE)
 #define AFIO                ((AFIO_TypeDef *)AFIO_BASE)
 
 /******************************************************************************/
 /*                     Peripheral Registers_Bits_Definition                   */
 /******************************************************************************/
+
+/******************************************************************************//////////////////////////////////////////////////
+/*                                                                            */
+/*                        General-purpose timer TIM2                          */
+/*                                                                            */
+/******************************************************************************/
+
+#define TIM2_CR1_CMS_Pos                     (5U)                              /* Выравнивание */
+#define TIM2_CR1_CMS_Msk                     (0x3UL << TIM2_CR1_CMS_Pos)       
+#define TIM2_CR1_CMS                         TIM2_CR1_CMS_Msk
+
+#define TIM2_CR1_DIR_Pos                     (4U)                              /* Направление счёта */
+#define TIM2_CR1_DIR_Msk                     (0x1UL << TIM2_CR1_DIR_Pos)       
+#define TIM2_CR1_DIR                         TIM2_CR1_DIR_Msk
+
+#define TIM2_CR1_OPM_Pos                     (3U)                              /* Одноимпульсный режим */
+#define TIM2_CR1_OPM_Msk                     (0x1UL << TIM2_CR1_OPM_Pos)       
+#define TIM2_CR1_OPM                         TIM2_CR1_OPM_Msk
+
+#define TIM2_CR1_CEN_Pos                     (0U)                              /* Включение счётчика */
+#define TIM2_CR1_CEN_Msk                     (0x1UL << TIM2_CR1_CEN_Pos)       
+#define TIM2_CR1_CEN                         TIM2_CR1_CEN_Msk
+
+#define TIM2_DIER_TIE_Pos                     (6U)                              /*  */
+#define TIM2_DIER_TIE_Msk                     (0x1UL << TIM2_DIER_TIE_Pos)       
+#define TIM2_DIER_TIE                         TIM2_DIER_TIE_Msk
+
+#define TIM2_SR_CC4OF_Pos                     (12U)                              /*  */
+#define TIM2_SR_CC4OF_Msk                     (0x1UL << TIM2_SR_CC4OF_Pos)       
+#define TIM2_SR_CC4OF                         TIM2_SR_CC4OF_Msk
+
+#define TIM2_SR_CC3OF_Pos                     (11U)                              /*  */
+#define TIM2_SR_CC3OF_Msk                     (0x1UL << TIM2_SR_CC3OF_Pos)       
+#define TIM2_SR_CC3OF                         TIM2_SR_CC3OF_Msk
+
+#define TIM2_SR_CC2OF_Pos                     (10U)                              /*  */
+#define TIM2_SR_CC2OF_Msk                     (0x1UL << TIM2_SR_CC2OF_Pos)       
+#define TIM2_SR_CC2OF                         TIM2_SR_CC2OF_Msk
+
+#define TIM2_SR_CC1OF_Pos                     (9U)                              /* */
+#define TIM2_SR_CC1OF_Msk                     (0x1UL << TIM2_SR_CC1OF_Pos)       
+#define TIM2_SR_CC1OF                         TIM2_SR_CC1OF_Msk
+
+#define TIM2_SR_TIF_Pos                     (6U)                              /*  */
+#define TIM2_SR_TIF_Msk                     (0x1UL << TIM2_SR_TIF_Pos)       
+#define TIM2_SR_TIF                         TIM2_SR_TIF_Msk
+
+#define TIM2_SR_CC4IF_Pos                     (4U)                              /* */
+#define TIM2_SR_CC4IF_Msk                     (0x1UL << TIM2_SR_CC4IF_Pos)       
+#define TIM2_SR_CC4IF                         TIM2_SR_CC4IF_Msk
+
+#define TIM2_SR_CC3IF_Pos                     (3U)                              /* */
+#define TIM2_SR_CC3IF_Msk                     (0x1UL << TIM2_SR_CC3IF_Pos)       
+#define TIM2_SR_CC3IF                         TIM2_SR_CC3IF_Msk
+
+#define TIM2_SR_CC2IF_Pos                     (2U)                              /* */
+#define TIM2_SR_CC2IF_Msk                     (0x1UL << TIM2_SR_CC2IF_Pos)       
+#define TIM2_SR_CC2IF                         TIM2_SR_CC2IF_Msk
+
+#define TIM2_SR_CC1IF_Pos                     (1U)                              /* */
+#define TIM2_SR_CC1IF_Msk                     (0x1UL << TIM2_SR_CC1IF_Pos)       
+#define TIM2_SR_CC1IF                         TIM2_SR_CC1IF_Msk
+
+#define TIM2_SR_UIF_Pos                     (0U)                                /*  */
+#define TIM2_SR_UIF_Msk                     (0x1UL << TIM2_SR_UIF_Pos)       
+#define TIM2_SR_UIF                         TIM2_SR_UIF_Msk
 
 /******************************************************************************//////////////////////////////////////////////////
 /*                                                                            */

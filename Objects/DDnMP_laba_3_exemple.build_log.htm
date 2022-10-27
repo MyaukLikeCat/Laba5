@@ -21,48 +21,46 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\zakha\Documents\git\DDNMP_LR\LR5_1\DDnMP_laba_3_exemple.uvprojx
-Project File Date:  10/11/2022
+C:\Users\zakha\Downloads\Laba5-main(1)\Laba5-main\DDnMP_laba_3_exemple.uvprojx
+Project File Date:  10/19/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f103xb.s...
-compiling UartUser.c...
-UartUser.h(38): warning:  #1-D: last line of file ends without a newline
-  void USART2_RX_Callback(void);
-UartUser.c(74): warning:  #223-D: function "memcpy" declared implicitly
-      memcpy(UartUserBufTX, buf, SizeData);
-UartUser.c(94): warning:  #223-D: function "round" declared implicitly
-      brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
-UartUser.c(113): warning:  #223-D: function "round" declared implicitly
-      brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
-UartUser.c(209): warning:  #1-D: last line of file ends without a newline
-  }
-UartUser.c(8): warning:  #177-D: variable "w"  was declared but never referenced
-  static uint16_t w = 1;
-UartUser.c(10): warning:  #177-D: variable "d"  was declared but never referenced
-  static uint8_t d = 0;
-UartUser.c(13): warning:  #550-D: variable "UartRxNum"  was set but never used
-  static USART_TypeDef *UartRxNum;
-UartUser.c(14): warning:  #177-D: variable "s"  was declared but never referenced
-  static uint8_t s;
-UartUser.c: 9 warnings, 0 errors
 compiling main.c...
 main.h(24): warning:  #1-D: last line of file ends without a newline
   #define NVIC	((NVIC_Type*)NVIC_BASE)   /*!< NVIC configuration struct */
-UartUser.h(38): warning:  #1-D: last line of file ends without a newline
-  void USART2_RX_Callback(void);
-main.c(53): warning:  #167-D: argument of type "char (*)[4]" is incompatible with parameter of type "char *"
-          UsartRx(USART2, &str, 4);
-main.c(55): warning:  #167-D: argument of type "char (*)[4]" is incompatible with parameter of type "char *"
-          UsartTxIT(USART2, &str, 4);
-main.c(128): warning:  #1-D: last line of file ends without a newline
+UartUser.h(41): warning:  #1-D: last line of file ends without a newline
+  static void TimeStart(uint16_t period);
+main.c(57): warning:  #167-D: argument of type "char (*)[10]" is incompatible with parameter of type "char *"
+          UsartRxIT(USART2, &str, 10);
+main.c(59): warning:  #167-D: argument of type "char (*)[10]" is incompatible with parameter of type "char *"
+          UsartTxIT(USART2, &str, 10);
+main.c(155): warning:  #1-D: last line of file ends without a newline
   }
 main.c: 5 warnings, 0 errors
+compiling UartUser.c...
+UartUser.h(41): warning:  #1-D: last line of file ends without a newline
+  static void TimeStart(uint16_t period);
+UartUser.c(86): warning:  #223-D: function "memcpy" declared implicitly
+      memcpy(UartUserBufTX, buf, SizeData);
+UartUser.c(106): warning:  #223-D: function "round" declared implicitly
+      brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
+UartUser.c(125): warning:  #223-D: function "round" declared implicitly
+      brr_f = (int16_t)(round((brr_d-(double)brr_m)*16));
+UartUser.c(221): warning:  #1-D: last line of file ends without a newline
+  }
+UartUser.c(9): warning:  #177-D: variable "d"  was declared but never referenced
+  static uint8_t d = 0;
+UartUser.c(12): warning:  #550-D: variable "UartRxNum"  was set but never used
+  static USART_TypeDef *UartRxNum;
+UartUser.c(13): warning:  #177-D: variable "s"  was declared but never referenced
+  static uint8_t s;
+UartUser.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=3844 RO-data=268 RW-data=32 ZI-data=1760  
-".\Objects\DDnMP_laba_3_exemple.axf" - 0 Error(s), 14 Warning(s).
+Program Size: Code=3916 RO-data=268 RW-data=24 ZI-data=1768  
+".\Objects\DDnMP_laba_3_exemple.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
